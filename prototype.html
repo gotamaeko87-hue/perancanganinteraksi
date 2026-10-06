@@ -1,0 +1,669 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LittleSeed Plants - Katalog Produk & Filter</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Google Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f2f7f4',
+              100: '#e1ede6',
+              200: '#c4dbcf',
+              600: '#2d5a40',
+              700: '#234733',
+              800: '#1e392a', /* Deep Forest Green LittleSeed */
+              900: '#15291e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+    
+    /* Custom style untuk slider range */
+    input[type=range]::-webkit-slider-thumb {
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #1e392a;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+      background: #e2e8f0;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-[#f9faf8] font-sans text-gray-800 antialiased min-h-screen flex flex-col selection:bg-brand-100 selection:text-brand-900">
+
+  <!-- ================= TOP NAVIGATION BAR ================= -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200/80 shadow-xs">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-brand-800 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+          <span class="material-symbols-outlined text-2xl">spa</span>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight text-brand-900 leading-tight">LittleSeed</span>
+          <span class="block text-[11px] font-semibold text-emerald-700 tracking-wider uppercase">Botanical & Living</span>
+        </div>
+      </a>
+
+      <!-- Menu Navigasi Desktop -->
+      <nav class="hidden md:flex items-center gap-1 bg-gray-100/70 p-1.5 rounded-full border border-gray-200/60">
+        <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-brand-900 transition">Beranda</a>
+        <a href="#" class="px-5 py-2 rounded-full text-sm font-bold bg-brand-800 text-white shadow-sm transition">Toko / Katalog</a>
+        <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-brand-900 transition">Tips</a>
+        <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-brand-900 transition">Komunitas</a>
+      </nav>
+
+      <!-- Quick Action: Search, Wishlist, Cart & Profile -->
+      <div class="flex items-center gap-4">
+        
+        <!-- Wishlist Button -->
+        <button id="wishlist-btn" class="relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 text-gray-700 transition">
+          <span class="material-symbols-outlined text-22px">favorite</span>
+          <span id="wishlist-badge" class="hidden absolute top-1 right-1 w-4 h-4 bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button id="cart-btn" class="relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 text-gray-700 transition">
+          <span class="material-symbols-outlined text-22px">shopping_bag</span>
+          <span id="cart-badge" class="absolute top-1 right-1 w-5 h-5 bg-brand-800 text-white text-[11px] font-bold rounded-full flex items-center justify-center ring-2 ring-white">3</span>
+        </button>
+
+        <!-- User Profile Avatar -->
+        <div class="flex items-center gap-3 pl-3 border-l border-gray-200">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Sarah P." class="w-10 h-10 rounded-full object-cover ring-2 ring-brand-800/20" />
+          <div class="hidden lg:block text-left leading-tight">
+            <span class="text-xs font-bold text-gray-900 block">Sarah P.</span>
+            <span class="text-[10px] text-gray-500">Plant Enthusiast</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= HERO & VALUE PROPOSITION ================= -->
+  <section class="max-w-7xl mx-auto px-6 pt-8 pb-4 w-full">
+    <div class="bg-gradient-to-r from-[#eef6f0] via-[#e5f0e9] to-[#dbeef0] rounded-3xl p-8 lg:p-12 border border-emerald-200/60 shadow-sm relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+      
+      <div class="max-w-xl z-10 space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-brand-800/10 text-brand-800 border border-brand-800/15">
+          <span class="material-symbols-outlined text-sm">potted_plant</span>
+          Koleksi Tropis & Indoor 2025
+        </div>
+        
+        <h1 class="text-3xl lg:text-4xl font-extrabold text-brand-900 leading-tight">
+          Temukan Tanaman Impianmu
+        </h1>
+        
+        <p class="text-sm text-gray-600 leading-relaxed">
+          Ribuan tanaman hias terkurasi untuk mempercantik rumah, teras apartemen, dan menghidupkan ruang kerjamu.
+        </p>
+
+        <!-- Big Search Bar -->
+        <div class="relative flex items-center max-w-lg pt-2">
+          <span class="absolute left-4 text-gray-400 material-symbols-outlined text-xl">search</span>
+          <input id="search-input" type="text" placeholder="Cari nama tanaman, jenis, atau pot keramik..." class="w-full pl-12 pr-28 py-3.5 bg-white text-sm rounded-2xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-800 focus:border-transparent text-gray-800 transition" />
+          <button id="search-btn" class="absolute right-2 px-5 py-2 rounded-xl bg-brand-800 hover:bg-brand-900 text-white text-xs font-bold transition flex items-center gap-1 shadow-xs">
+            <span>Cari</span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Visual Card -->
+      <div class="w-full max-w-sm bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-white shadow-lg flex items-center gap-4">
+        <img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=300&auto=format&fit=crop&q=80" alt="Monstera Deliciosa Paling Dicari" class="w-24 h-24 rounded-xl object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="text-[10px] font-extrabold text-emerald-700 uppercase tracking-wider block">Paling Dicari</span>
+          <h4 class="text-sm font-bold text-gray-900">Monstera Deliciosa</h4>
+          <p class="text-xs font-extrabold text-brand-800 mt-1">Rp 120.000</p>
+          <span class="inline-block mt-1 text-[11px] text-gray-500">★ 4.8 (120 ulasan)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Baris Keunggulan Layanan -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+      <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-xl">verified</span>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-gray-900">Tanaman Berkualitas</h4>
+          <p class="text-[11px] text-gray-500">Pilihan terbaik & terseleksi</p>
+        </div>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-xl">psychology</span>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-gray-900">Tips Berkebun</h4>
+          <p class="text-[11px] text-gray-500">Panduan kurator & ahli</p>
+        </div>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-xl">diversity_3</span>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-gray-900">Komunitas Aktif</h4>
+          <p class="text-[11px] text-gray-500">Diskusi, barter & rawat</p>
+        </div>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-xl">local_shipping</span>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-gray-900">Pengiriman Aman</h4>
+          <p class="text-[11px] text-gray-500">Garansi tiba dalam kondisi segar</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MAIN CONTENT: FILTER + GRID PRODUK ================= -->
+  <main class="max-w-7xl mx-auto px-6 py-8 w-full flex-1">
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+      
+      <!-- SIDEBAR FILTER (KIRI) -->
+      <aside class="w-full lg:w-72 bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs space-y-6 shrink-0">
+        <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-lg text-brand-800">tune</span>
+            <h3 class="font-extrabold text-sm text-gray-900 tracking-tight">Filter Pencarian</h3>
+          </div>
+          <button id="reset-filter" class="text-xs font-bold text-emerald-700 hover:text-emerald-900 transition">Reset</button>
+        </div>
+
+        <!-- Filter Kategori -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Kategori</h4>
+          <div class="space-y-2 text-xs text-gray-600">
+            <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+              <span class="flex items-center gap-2">
+                <input type="checkbox" checked class="category-filter rounded text-brand-800 focus:ring-brand-800 w-4 h-4" value="Semua" />
+                <span>Semua Tanaman</span>
+              </span>
+              <span class="text-gray-400 font-medium">243</span>
+            </label>
+            <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+              <span class="flex items-center gap-2">
+                <input type="checkbox" class="category-filter rounded text-brand-800 focus:ring-brand-800 w-4 h-4" value="Indoor" />
+                <span>Tanaman Indoor</span>
+              </span>
+              <span class="text-gray-400 font-medium">96</span>
+            </label>
+            <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+              <span class="flex items-center gap-2">
+                <input type="checkbox" class="category-filter rounded text-brand-800 focus:ring-brand-800 w-4 h-4" value="Outdoor" />
+                <span>Tanaman Outdoor</span>
+              </span>
+              <span class="text-gray-400 font-medium">45</span>
+            </label>
+            <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+              <span class="flex items-center gap-2">
+                <input type="checkbox" class="category-filter rounded text-brand-800 focus:ring-brand-800 w-4 h-4" value="Herbal" />
+                <span>Tanaman Sayur & Herbal</span>
+              </span>
+              <span class="text-gray-400 font-medium">32</span>
+            </label>
+            <label class="flex items-center justify-between cursor-pointer hover:text-gray-900">
+              <span class="flex items-center gap-2">
+                <input type="checkbox" class="category-filter rounded text-brand-800 focus:ring-brand-800 w-4 h-4" value="Pot" />
+                <span>Pot & Aksesoris</span>
+              </span>
+              <span class="text-gray-400 font-medium">64</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter Rentang Harga -->
+        <div class="space-y-3 pt-4 border-t border-gray-100">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Rentang Harga</h4>
+            <span id="price-val" class="text-xs font-bold text-brand-800">Maks. Rp 200.000</span>
+          </div>
+          <input id="price-range" type="range" min="30000" max="200000" step="5000" value="200000" class="w-full accent-brand-800" />
+          <div class="flex items-center justify-between text-[11px] text-gray-400 font-medium">
+            <span>Rp 30.000</span>
+            <span>Rp 200.000</span>
+          </div>
+        </div>
+
+        <!-- Filter Rating Ulasan -->
+        <div class="space-y-3 pt-4 border-t border-gray-100">
+          <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Rating Ulasan</h4>
+          <div class="space-y-2 text-xs">
+            <label class="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-gray-900">
+              <input type="checkbox" class="rounded text-brand-800 focus:ring-brand-800 w-4 h-4" />
+              <div class="flex items-center text-amber-500">
+                <span class="material-symbols-outlined text-sm fill">star</span>
+                <span class="material-symbols-outlined text-sm fill">star</span>
+                <span class="material-symbols-outlined text-sm fill">star</span>
+                <span class="material-symbols-outlined text-sm fill">star</span>
+                <span class="material-symbols-outlined text-sm">star</span>
+              </div>
+              <span class="text-gray-600 font-medium">4 bintang ke atas</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter Kebutuhan Cahaya -->
+        <div class="space-y-3 pt-4 border-t border-gray-100">
+          <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Kebutuhan Cahaya</h4>
+          <div class="space-y-2 text-xs text-gray-600">
+            <label class="flex items-center gap-2 cursor-pointer hover:text-gray-900">
+              <input type="checkbox" class="rounded text-brand-800 focus:ring-brand-800 w-4 h-4" />
+              <span>Cahaya Tidak Langsung</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer hover:text-gray-900">
+              <input type="checkbox" class="rounded text-brand-800 focus:ring-brand-800 w-4 h-4" />
+              <span>Tahan Rendah Cahaya</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer hover:text-gray-900">
+              <input type="checkbox" class="rounded text-brand-800 focus:ring-brand-800 w-4 h-4" />
+              <span>Matahari Langsung</span>
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- GRID PRODUK & KONTEN UTAMA (KANAN) -->
+      <section class="flex-1 w-full space-y-6">
+        
+        <!-- Header Grid: Judul & Pengurutan -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white px-6 py-4 rounded-2xl border border-gray-200/80 shadow-xs">
+          <div class="flex items-baseline gap-2">
+            <h2 class="text-base font-extrabold text-gray-900">Semua Tanaman</h2>
+            <span id="product-count" class="text-xs text-gray-500 font-medium">(6 Tanaman ditampilkan)</span>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <span class="text-gray-500 font-medium">Urutkan:</span>
+            <select id="sort-select" class="bg-gray-50 border border-gray-200 rounded-xl px-3 py-1.5 font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-800">
+              <option value="popular">Terpopuler</option>
+              <option value="price-asc">Harga: Terendah ke Tertinggi</option>
+              <option value="price-desc">Harga: Tertinggi ke Terendah</option>
+              <option value="rating">Rating Tertinggi</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Product Grid (3 Kolom Desktop) -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          <!-- Item diisi oleh JavaScript -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex items-center justify-center gap-2 pt-6">
+          <button class="w-9 h-9 rounded-xl border border-gray-200 bg-white text-gray-500 flex items-center justify-center hover:bg-gray-50 transition">
+            <span class="material-symbols-outlined text-sm">chevron_left</span>
+          </button>
+          <button class="w-9 h-9 rounded-xl bg-brand-800 text-white font-bold text-xs shadow-xs">1</button>
+          <button class="w-9 h-9 rounded-xl border border-gray-200 bg-white text-gray-700 font-bold text-xs hover:bg-gray-50 transition">2</button>
+          <button class="w-9 h-9 rounded-xl border border-gray-200 bg-white text-gray-700 font-bold text-xs hover:bg-gray-50 transition">3</button>
+          <button class="w-9 h-9 rounded-xl border border-gray-200 bg-white text-gray-500 flex items-center justify-center hover:bg-gray-50 transition">
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </button>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-white border-t border-gray-200 mt-16 py-12">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+      
+      <div class="space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-800 text-2xl">spa</span>
+          <span class="font-extrabold text-lg text-brand-900">LittleSeed</span>
+        </div>
+        <p class="text-xs text-gray-500 leading-relaxed">
+          Temukan harmoni dan ketenangan hidup bersama kurasi tanaman hias dalam ruangan terbaik serta komunitas botani terpercaya.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">Eksplorasi</h4>
+        <ul class="space-y-2 text-xs text-gray-600">
+          <li><a href="#" class="hover:text-brand-800">Tanaman Indoor</a></li>
+          <li><a href="#" class="hover:text-brand-800">Pot & Media Tanam</a></li>
+          <li><a href="#" class="hover:text-brand-800">Panduan Perawatan</a></li>
+          <li><a href="#" class="hover:text-brand-800">Forum Diskusi</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">Bantuan & Info</h4>
+        <ul class="space-y-2 text-xs text-gray-600">
+          <li><a href="#" class="hover:text-brand-800">Garansi Kesegaran</a></li>
+          <li><a href="#" class="hover:text-brand-800">Pengiriman Kilat</a></li>
+          <li><a href="#" class="hover:text-brand-800">Kebijakan Pengembalian</a></li>
+          <li><a href="#" class="hover:text-brand-800">Hubungi Hortikularis</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">Warta Hijau</h4>
+        <p class="text-xs text-gray-500 mb-3 leading-relaxed">Dapatkan panduan mingguan merawat flora langka dan voucher promo berkala.</p>
+        <div class="flex items-center">
+          <input type="email" placeholder="Surel Anda..." class="w-full text-xs px-3 py-2 bg-gray-50 border border-gray-200 rounded-l-xl focus:outline-none" />
+          <button class="px-4 py-2 bg-brand-800 text-white font-bold text-xs rounded-r-xl hover:bg-brand-900 transition">Gabung</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 pt-8 mt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between text-[11px] text-gray-500 gap-4">
+      <p>© 2025 LittleSeed Plants Indonesia. Seluruh hak cipta dilindungi.</p>
+      <div class="flex gap-4">
+        <a href="#" class="hover:underline">Ketentuan Privasi</a>
+        <a href="#" class="hover:underline">Syarat & Layanan</a>
+        <a href="#" class="hover:underline">Cookies</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-brand-800 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+    <span class="material-symbols-outlined text-emerald-400">check_circle</span>
+    <span id="toast-message" class="text-xs font-semibold">Produk berhasil ditambahkan ke keranjang!</span>
+  </div>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    // 1. Data Mock Produk LittleSeed
+    const productsData = [
+      {
+        id: 1,
+        name: "Monstera Deliciosa",
+        category: "Indoor",
+        species: "Araceae • Mudah Dirawat",
+        price: 120000,
+        rating: 4.8,
+        reviews: 120,
+        badge: "Indoor Favorit",
+        image: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 2,
+        name: "Snake Plant (Sansevieria)",
+        category: "Indoor",
+        species: "Asparagaceae • Tahan Gelap",
+        price: 85000,
+        rating: 4.7,
+        reviews: 98,
+        badge: "Pembersih Udara",
+        image: "https://images.unsplash.com/photo-1593482877647-724a1c8d2026?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 3,
+        name: "Peace Lily",
+        category: "Indoor",
+        species: "Araceae • Berbunga Anggun",
+        price: 95000,
+        rating: 4.6,
+        reviews: 76,
+        badge: null,
+        image: "https://images.unsplash.com/photo-1593691509543-c55fb32e7355?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 4,
+        name: "Philodendron Birkin",
+        category: "Indoor",
+        species: "Araceae • Daun Artistik",
+        price: 110000,
+        rating: 4.5,
+        reviews: 59,
+        badge: null,
+        image: "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 5,
+        name: "ZZ Plant (Zamioculcas)",
+        category: "Indoor",
+        species: "Araceae • Jarang Siram",
+        price: 90000,
+        rating: 4.6,
+        reviews: 62,
+        badge: "Sangat Tangguh",
+        image: "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: 6,
+        name: "Lavender Herb",
+        category: "Herbal",
+        species: "Lamiaceae • Wangi Menenangkan",
+        price: 50000,
+        rating: 4.3,
+        reviews: 41,
+        badge: "Aromaterapi",
+        image: "https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=600&auto=format&fit=crop&q=80"
+      }
+    ];
+
+    // State Aplikasi
+    let cartCount = 3;
+    let wishlistItems = new Set();
+    let currentFilter = {
+      search: "",
+      maxPrice: 200000,
+      sortBy: "popular"
+    };
+
+    // Format Rupiah
+    function formatRupiah(amount) {
+      return "Rp " + amount.toLocaleString('id-ID');
+    }
+
+    // Render Grid Produk
+    const productGrid = document.getElementById("product-grid");
+    const productCountText = document.getElementById("product-count");
+
+    function renderProducts() {
+      // Filter berdasarkan pencarian dan harga
+      let filtered = productsData.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(currentFilter.search.toLowerCase()) || 
+                              product.species.toLowerCase().includes(currentFilter.search.toLowerCase());
+        const matchesPrice = product.price <= currentFilter.maxPrice;
+        
+        return matchesSearch && matchesPrice;
+      });
+
+      // Sort logic
+      if (currentFilter.sortBy === "price-asc") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (currentFilter.sortBy === "price-desc") {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (currentFilter.sortBy === "rating") {
+        filtered.sort((a, b) => b.rating - a.rating);
+      }
+
+      productCountText.textContent = `(${filtered.length} Tanaman ditampilkan)`;
+
+      if (filtered.length === 0) {
+        productGrid.innerHTML = `
+          <div class="col-span-full py-16 text-center bg-white rounded-3xl border border-gray-200/80">
+            <span class="material-symbols-outlined text-4xl text-gray-400">search_off</span>
+            <p class="text-sm font-bold text-gray-700 mt-2">Tidak ada tanaman yang sesuai</p>
+            <p class="text-xs text-gray-500">Coba sesuaikan kata kunci pencarian atau rentang harga.</p>
+          </div>
+        `;
+        return;
+      }
+
+      productGrid.innerHTML = filtered.map(product => {
+        const isWishlisted = wishlistItems.has(product.id);
+        return `
+          <article class="bg-white rounded-3xl p-4 border border-gray-200/80 shadow-xs flex flex-col justify-between hover:shadow-md hover:-translate-y-1 transition duration-200 group">
+            <div>
+              <!-- Foto & Wishlist -->
+              <div class="relative rounded-2xl overflow-hidden bg-gray-100 aspect-square">
+                <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                ${product.badge ? `
+                <span class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-xs text-[10px] font-bold text-brand-800 px-2.5 py-1 rounded-full shadow-xs">
+                  ${product.badge}
+                </span>
+                ` : ''}
+                <button onclick="toggleWishlist(${product.id})" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm ${isWishlisted ? 'text-rose-500' : 'text-gray-600'} hover:text-rose-500 flex items-center justify-center transition shadow-xs">
+                  <span class="material-symbols-outlined text-base ${isWishlisted ? 'fill' : ''}">favorite</span>
+                </button>
+              </div>
+              
+              <!-- Info Produk -->
+              <div class="mt-3.5 space-y-1">
+                <div class="flex items-center gap-1.5 text-xs text-amber-500 font-bold">
+                  <span class="material-symbols-outlined text-sm fill">star</span>
+                  <span>${product.rating}</span>
+                  <span class="text-gray-400 font-normal">(${product.reviews})</span>
+                </div>
+                <h3 class="font-extrabold text-sm text-gray-900 group-hover:text-brand-800 transition line-clamp-1">${product.name}</h3>
+                <p class="text-xs text-gray-500 font-medium">${product.species}</p>
+              </div>
+            </div>
+            
+            <!-- Harga & Action Cart -->
+            <div class="pt-4 border-t border-gray-100 mt-3 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-gray-400 block font-medium">Harga</span>
+                <span class="text-sm font-extrabold text-brand-800">${formatRupiah(product.price)}</span>
+              </div>
+              <button onclick="addToCart('${product.name}')" class="px-4 py-2 rounded-xl bg-brand-800 hover:bg-brand-900 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition active:scale-95">
+                <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                <span>Keranjang</span>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Interaktivitas: Tambah ke Keranjang
+    function addToCart(productName) {
+      cartCount++;
+      document.getElementById("cart-badge").textContent = cartCount;
+      showToast(`"${productName}" berhasil ditambahkan ke keranjang!`);
+    }
+
+    // Interaktivitas: Wishlist Toggle
+    function toggleWishlist(productId) {
+      if (wishlistItems.has(productId)) {
+        wishlistItems.delete(productId);
+        showToast("Dihapus dari daftar favorit");
+      } else {
+        wishlistItems.add(productId);
+        showToast("Ditambahkan ke daftar favorit!");
+      }
+      
+      const badge = document.getElementById("wishlist-badge");
+      if (wishlistItems.size > 0) {
+        badge.classList.remove("hidden");
+        badge.textContent = wishlistItems.size;
+      } else {
+        badge.classList.add("hidden");
+      }
+      renderProducts();
+    }
+
+    // Toast Notification
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      const toastMsg = document.getElementById("toast-message");
+      toastMsg.textContent = message;
+      
+      toast.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
+      setTimeout(() => {
+        toast.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
+      }, 2500);
+    }
+
+    // Event Listener: Search Bar
+    document.getElementById("search-input").addEventListener("input", (e) => {
+      currentFilter.search = e.target.value;
+      renderProducts();
+    });
+
+    // Event Listener: Price Range
+    const priceSlider = document.getElementById("price-range");
+    const priceValText = document.getElementById("price-val");
+    
+    priceSlider.addEventListener("input", (e) => {
+      currentFilter.maxPrice = Number(e.target.value);
+      priceValText.textContent = `Maks. ${formatRupiah(currentFilter.maxPrice)}`;
+      renderProducts();
+    });
+
+    // Event Listener: Sort
+    document.getElementById("sort-select").addEventListener("change", (e) => {
+      currentFilter.sortBy = e.target.value;
+      renderProducts();
+    });
+
+    // Event Listener: Reset Filter
+    document.getElementById("reset-filter").addEventListener("click", () => {
+      document.getElementById("search-input").value = "";
+      priceSlider.value = 200000;
+      currentFilter = {
+        search: "",
+        maxPrice: 200000,
+        sortBy: "popular"
+      };
+      priceValText.textContent = `Maks. ${formatRupiah(200000)}`;
+      document.getElementById("sort-select").value = "popular";
+      renderProducts();
+      showToast("Filter pencarian direset!");
+    });
+
+    // Inisialisasi awal saat load
+    renderProducts();
+  </script>
+</body>
+</html>
+
+```
